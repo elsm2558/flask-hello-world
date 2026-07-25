@@ -7,13 +7,17 @@ app = Flask(__name__)
 # Fetch the connection string securely from Render's environment variables
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
+# Fix for Render URL scheme compatibility
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
 
 @app.route("/")
 def index():
     return "Hello World from Elysha in CSPB 3308"
 
 
-@app.route("/db-test")
+@app.route("/db_test")
 def db_test():
     conn = None
     cur = None
